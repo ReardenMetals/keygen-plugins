@@ -65,9 +65,11 @@ This is a set of Python bindings for the scrypt key derivation function.
 
 Scrypt is useful when encrypting password as it is possible to specify a minimum amount of time to use when encrypting and decrypting. If, for example, a password takes 0.05 seconds to verify, a user won’t notice the slight delay when signing in, but doing a brute force search of several billion passwords will take a considerable amount of time. This is in contrast to more traditional hash functions such as MD5 or the SHA family which can be implemented extremely fast on cheap hardware.
 
+### mnemonic library
 
+https://pypi.org/project/mnemonic/
 
-
+Reference implementation of BIP-0039: Mnemonic code for generating deterministic keys
 
 
 
