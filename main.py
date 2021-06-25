@@ -6,7 +6,6 @@ from plugins.eos_crypto_coin_service import EosCoinService
 from plugins.pote_crypto_coin_service import PoteCoinService
 from plugins.xmr_crypto_coin_service import XmrCoinService
 from plugins.xrp_crypto_coin_service import RippleCoinService
-from plugins.ada_crypto_coin_service import CardanoCoinService
 
 def test_ada_gen():
     service = CardanoCoinService()
