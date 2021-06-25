@@ -35,7 +35,7 @@ def test_bsv_gen():
 
 def main():
     print("Hello world")
-    test_bsv_gen()
+    test_ada_gen()
 
 
 # Press the green button in the gutter to run the script.

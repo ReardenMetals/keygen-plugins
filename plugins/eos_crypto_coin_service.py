@@ -4,6 +4,7 @@ from aioeos.keys import EosKey
 
 import re
 
+
 class EosCoinService(CoinService):
 
     def generate(self):
