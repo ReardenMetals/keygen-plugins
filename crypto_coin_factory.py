@@ -1,5 +1,5 @@
 from keygen.crypto_coin_factory import CoinFactory
-from plugins.ada_crypto_coin_service import CardanoCoinService
+# from plugins.ada_crypto_coin_service import CardanoCoinService
 from plugins.bnb_crypto_coin_service import BnbCoinService
 from plugins.bsv_crypto_coin_service import BsvCoinService
 from plugins.dash_crypto_coin_service import DashCoinService
@@ -35,6 +35,6 @@ class CoinFactoryExtended(CoinFactory):
             return EosCoinService()
         if currency == "POTE":
             return PoteCoinService()
-        if currency == "ADA":
-            return CardanoCoinService()
+        # if currency == "ADA":
+        #     return CardanoCoinService()
         return super().get_coin_service(currency)
