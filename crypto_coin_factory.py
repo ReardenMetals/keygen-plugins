@@ -1,7 +1,7 @@
 from keygen.crypto_coin_factory import CoinFactory
-# from plugins.ada_crypto_coin_service import CardanoCoinService
 from plugins.bnb_crypto_coin_service import BnbCoinService
 from plugins.bsv_crypto_coin_service import BsvCoinService
+from plugins.d_crypto_coin_service import DenariusCoinService
 from plugins.dash_crypto_coin_service import DashCoinService
 from plugins.eos_crypto_coin_service import EosCoinService
 from plugins.pote_crypto_coin_service import PoteCoinService
@@ -18,7 +18,7 @@ class CoinFactoryExtended(CoinFactory):
 
     @staticmethod
     def get_default_available_currencies():
-        return ['DASH', 'BSV', 'XRP', 'XMR', 'BNB', 'EOS', 'POTE', 'ADA'] # For the next release.
+        return ['DASH', 'BSV', 'XRP', 'XMR', 'BNB', 'EOS', 'POTE', 'D']
 
     def get_coin_service(self, currency):
         if currency == "DASH":
@@ -35,6 +35,6 @@ class CoinFactoryExtended(CoinFactory):
             return EosCoinService()
         if currency == "POTE":
             return PoteCoinService()
-        # if currency == "ADA":
-        #     return CardanoCoinService()
+        if currency == "D":
+            return DenariusCoinService()
         return super().get_coin_service(currency)
