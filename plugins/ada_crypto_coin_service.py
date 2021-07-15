@@ -118,4 +118,4 @@ class CardanoCoinService(CoinService):
         return re.search('^Ae2tdPwUPE(\\w{6}).+$', coin.address).group(1)
 
 
-__all__ = ['CardanoCoinService']
+__all__ = []
