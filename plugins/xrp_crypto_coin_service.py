@@ -3,10 +3,15 @@ from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Co
 from keygen.crypto_coin import CryptoCoin
 from keygen.crypto_coin_service import CoinService
 
+
 # Wallet validator: http://ripplerm.github.io/ripple-wallet/
 # https://support.exodus.com/article/110-why-does-ripple-have-a-minimum-balance#access
 # https://support.exodus.com/article/925-everything-you-need-to-know-about-the-recovery-phrase
 class RippleCoinService(CoinService):
+
+    @staticmethod
+    def get_currency_name():
+        return "XRP"
 
     def generate(self):
         # Generate random mnemonic
@@ -29,3 +34,6 @@ class RippleCoinService(CoinService):
         key_pair = Bip44.FromAddressPrivKey(bytes.fromhex(private_key), Bip44Coins.RIPPLE)
         address = key_pair.PublicKey().ToAddress()
         return CryptoCoin(address, private_key)
+
+
+__all__ = ['RippleCoinService']

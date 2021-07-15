@@ -1,13 +1,15 @@
 from keygen.crypto_coin import CryptoCoin
 from keygen.crypto_coin_service import CoinService
 
-
-from bip_utils import BitcoinConf, Bip44Coins, WifDecoder, Bip44, Base58Encoder, Bip39MnemonicGenerator, \
-    Bip39SeedGenerator, Base58Decoder, BitcoinSvConf
-from bip_utils.utils import CryptoUtils, KeyUtils
+from bip_utils import Bip44Coins, WifDecoder, Bip44, Bip39MnemonicGenerator, \
+    Bip39SeedGenerator, BitcoinSvConf
 
 
 class BsvCoinService(CoinService):
+
+    @staticmethod
+    def get_currency_name():
+        return "BSV"
 
     def generate(self):
         # Generate random mnemonic
@@ -30,3 +32,6 @@ class BsvCoinService(CoinService):
         key_pair = Bip44.FromAddressPrivKey(decoded_wif, Bip44Coins.BITCOIN_SV)
         address = key_pair.PublicKey().ToAddress()
         return CryptoCoin(address, private_key)
+
+
+__all__ = ['BsvCoinService']
