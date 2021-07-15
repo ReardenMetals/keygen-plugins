@@ -52,3 +52,14 @@ def test_get_address_xmr():
 def test_get_address_xrp():
     address = get_coin_address('XRP', '069ce4e08b502ac1d87cd843c1fc8bdd518da4088c4226219f8c2eeabaf0ac1f')
     assert 'rUH8TjU6SGe2NEqX8qRfanRU6MBQjbDkeZ' == address
+
+
+def test_get_address_d0():
+    address = get_coin_address('D', 'QSDoM1x6bu7BJH965SEu2GrGZdqXbjfBrjDYxfmfvkGYX7aCAPvX')
+    assert 'DPNsvdVer4LPjPApt8hw4sFfwRfb7ihAHj' == address
+
+
+def test_get_address_d1():
+    address = get_coin_address('D', 'QWHQY5iNj5HbS9M25yb2UVm8Lh8aqfJUuqbJ4NhkHQqLcczqL6Qd')
+    assert 'DGkPXfipAat7QswFuZtDJ5CeNiPRQnpzDG' == address
+

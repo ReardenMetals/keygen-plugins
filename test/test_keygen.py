@@ -61,3 +61,9 @@ def test_gen_xrp():
     coin = generate('XRP')
     assert coin.address is not None
     assert coin.wif is not None
+
+
+def test_gen_d():
+    coin = generate('D')
+    assert coin.address is not None
+    assert coin.wif is not None
