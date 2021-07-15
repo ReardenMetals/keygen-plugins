@@ -6,6 +6,10 @@ from monero.seed import Seed
 
 class XmrCoinService(CoinService):
 
+    @staticmethod
+    def get_currency_name():
+        return "XMR"
+
     def generate(self):
         s = Seed()
 
@@ -29,3 +33,6 @@ class XmrCoinService(CoinService):
 
     def format(self, coin):
         return "{},{}\n".format(coin.address, coin.wif)
+
+
+__all__ = ['XmrCoinService']

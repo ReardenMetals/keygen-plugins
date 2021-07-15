@@ -13,8 +13,8 @@ import base58
 
 import re
 
-def get_cwid_from_mnemonic(words):
 
+def get_cwid_from_mnemonic(words):
     # print("\nMnemonic:", words)
 
     entropy = Mnemonic('english').to_entropy(words)
@@ -95,7 +95,12 @@ def get_cwid_from_mnemonic(words):
     # print("CwID:", cwid.decode(), "\n")
     return cwid.decode()
 
+
 class CardanoCoinService(CoinService):
+
+    @staticmethod
+    def get_currency_name():
+        return "ADA"
 
     def generate(self):
         seed = Mnemonic('english').generate()
@@ -111,3 +116,6 @@ class CardanoCoinService(CoinService):
 
     def generate_asset_id(self, coin):
         return re.search('^Ae2tdPwUPE(\\w{6}).+$', coin.address).group(1)
+
+
+__all__ = ['CardanoCoinService']

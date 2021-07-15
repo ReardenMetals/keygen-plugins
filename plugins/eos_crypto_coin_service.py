@@ -7,6 +7,10 @@ import re
 
 class EosCoinService(CoinService):
 
+    @staticmethod
+    def get_currency_name():
+        return "EOS"
+
     def generate(self):
         eos = EosKey()
         address = eos.to_public()
@@ -23,3 +27,6 @@ class EosCoinService(CoinService):
 
     def generate_asset_id(self, coin):
         return re.search('^EOS(\\w{6}).+$', coin.address).group(1)
+
+
+__all__ = ['EosCoinService']

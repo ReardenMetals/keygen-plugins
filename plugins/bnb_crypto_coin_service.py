@@ -8,6 +8,10 @@ import re
 
 class BnbCoinService(CoinService):
 
+    @staticmethod
+    def get_currency_name():
+        return "BNB"
+
     def generate(self):
         # Generate random mnemonic
         mnemonic = Bip39MnemonicGenerator.FromWordsNumber(12)
@@ -32,3 +36,6 @@ class BnbCoinService(CoinService):
 
     def generate_asset_id(self, coin):
         return re.search('^bnb1(\\w{6}).+$', coin.address).group(1)
+
+
+__all__ = ['BnbCoinService']

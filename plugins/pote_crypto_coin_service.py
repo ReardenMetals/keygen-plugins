@@ -1,5 +1,5 @@
 from bip_utils import NetVersions, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Coins, Bip44, WifEncoder, \
-    BitcoinConf, Base58Encoder, WifDecoder
+    Base58Encoder, WifDecoder
 from bip_utils.utils import CryptoUtils
 
 from keygen.crypto_coin import CryptoCoin
@@ -11,6 +11,10 @@ POTE_WIF_NET_VER = NetVersions(b"\xb7")
 
 
 class PoteCoinService(CoinService):
+
+    @staticmethod
+    def get_currency_name():
+        return "POTE"
 
     def generate(self):
         # Generate random mnemonic
@@ -54,3 +58,6 @@ class PoteCoinService(CoinService):
         pub_key_bytes = b'\x04' + to_hex
         address = Base58Encoder.CheckEncode(POTE_P2PKH_NET_VER.Main() + CryptoUtils.Hash160(pub_key_bytes))
         return CryptoCoin(address, private_key)
+
+
+__all__ = ['PoteCoinService']

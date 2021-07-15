@@ -2,13 +2,17 @@ from bip_utils.utils import CryptoUtils
 
 from keygen.crypto_coin import CryptoCoin
 from keygen.crypto_coin_service import CoinService
-from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44Changes, WifDecoder, DashConf, \
+from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Coins, WifDecoder, DashConf, \
     Base58Encoder
 
 from keygen.wif_validator import is_compressed_wif
 
 
 class DashCoinService(CoinService):
+
+    @staticmethod
+    def get_currency_name():
+        return "DASH"
 
     def generate(self):
         # Generate random mnemonic
@@ -51,3 +55,6 @@ class DashCoinService(CoinService):
         pub_key_bytes = b'\x04' + to_hex
         address = Base58Encoder.CheckEncode(config_alias.P2PKH_NET_VER.Main() + CryptoUtils.Hash160(pub_key_bytes))
         return CryptoCoin(address, private_key)
+
+
+__all__ = ['DashCoinService']
