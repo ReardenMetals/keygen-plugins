@@ -72,5 +72,16 @@ https://pypi.org/project/mnemonic/
 Reference implementation of BIP-0039: Mnemonic code for generating deterministic keys
 
 
+## AWS Lambda keygen installation
+
+Preparing package for AWS Lambda:
+
+    mkdir ~/lambda
+    cp -R keygen-core/* ~/lambda
+    cp -R keygen-plugins/* ~/lambda
+    cd ~/lambda
+    zip -r9 ~/lambda.zip .
+    
+Upload zip archive to AWS Lambda.
 
 
