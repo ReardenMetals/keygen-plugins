@@ -281,7 +281,7 @@ class DenariusCoinService(CoinService):
 
     @staticmethod
     def get_currency_name():
-        return "D"
+        return "DENARIUS"
 
     def generate(self, ):
         # Generate random mnemonic
