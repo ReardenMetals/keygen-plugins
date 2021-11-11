@@ -1,14 +1,14 @@
-from crypto_coin_factory import CoinFactoryExtended
+from keygen.crypto_coin_factory import CoinFactory
 
 
 def get_coin_address(currency, private_key):
-    service = CoinFactoryExtended().get_coin_service(currency)
+    service = CoinFactory().get_coin_service(currency)
     return service.get_address(private_key)
 
 
-def test_get_address_ada():
-    address = get_coin_address('ADA', 'tilt occur nature trend drip catalog clinic settle vague spin yellow differ')
-    assert 'Ae2tdPwUPEZ76ux7XNfaTuRwoXqnyWYmVzxEDa4NFDqvJcknhhAVr1um7N6' == address
+# def test_get_address_ada():
+#     address = get_coin_address('ADA', 'tilt occur nature trend drip catalog clinic settle vague spin yellow differ')
+#     assert 'Ae2tdPwUPEZ76ux7XNfaTuRwoXqnyWYmVzxEDa4NFDqvJcknhhAVr1um7N6' == address
 
 
 def test_get_address_bnb():
@@ -54,12 +54,16 @@ def test_get_address_xrp():
     assert 'rUH8TjU6SGe2NEqX8qRfanRU6MBQjbDkeZ' == address
 
 
-def test_get_address_d0():
-    address = get_coin_address('D', 'QSDoM1x6bu7BJH965SEu2GrGZdqXbjfBrjDYxfmfvkGYX7aCAPvX')
-    assert 'DPNsvdVer4LPjPApt8hw4sFfwRfb7ihAHj' == address
+def test_get_address_bsc():
+    address = get_coin_address('BSC', 'e5135b79acb142fd713843b0eac3bea4247b606016736d47c009e7678db3ba35')
+    assert '0xCdE19D6a113eB73755138C1d42cB6cA4C66c49cf' == address
 
-
-def test_get_address_d1():
-    address = get_coin_address('D', 'QWHQY5iNj5HbS9M25yb2UVm8Lh8aqfJUuqbJ4NhkHQqLcczqL6Qd')
-    assert 'DGkPXfipAat7QswFuZtDJ5CeNiPRQnpzDG' == address
+# def test_get_address_d0():
+#     address = get_coin_address('D', 'QSDoM1x6bu7BJH965SEu2GrGZdqXbjfBrjDYxfmfvkGYX7aCAPvX')
+#     assert 'DPNsvdVer4LPjPApt8hw4sFfwRfb7ihAHj' == address
+#
+#
+# def test_get_address_d1():
+#     address = get_coin_address('D', 'QWHQY5iNj5HbS9M25yb2UVm8Lh8aqfJUuqbJ4NhkHQqLcczqL6Qd')
+#     assert 'DGkPXfipAat7QswFuZtDJ5CeNiPRQnpzDG' == address
 
