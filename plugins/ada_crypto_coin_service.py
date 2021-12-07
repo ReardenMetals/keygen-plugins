@@ -106,7 +106,7 @@ class CardanoCoinService(CoinService):
         seed = Mnemonic('english').generate()
         wif = seed
         address = get_cwid_from_mnemonic(seed)
-        return CryptoCoin(address, wif, seed)
+        return CryptoCoin(address, wif, '')
 
     def get_coin(self, private_key):
         wif = private_key
@@ -117,5 +117,10 @@ class CardanoCoinService(CoinService):
     def generate_asset_id(self, coin):
         return re.search('^Ae2tdPwUPE(\\w{6}).+$', coin.address).group(1)
 
+    def format(self, coin):
+        return "{},{}\n".format(coin.wif, coin.address)
+
+    def get_csv_header(self):
+        return "WIF,Address\n"
 
 __all__ = ["CardanoCoinService"]
