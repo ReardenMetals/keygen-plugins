@@ -1,4 +1,4 @@
-from crypto_coin_factory import CoinFactoryExtended
+from keygen.crypto_coin_factory import CoinFactory
 
 
 def default_input(message, default_val):
@@ -12,7 +12,7 @@ def main():
     while True:
         try:
             currency = default_input("What crypto you making (BTC, ETH, ...)? ", "BTC").upper()
-            service = CoinFactoryExtended().get_coin_service(currency)
+            service = CoinFactory().get_coin_service(currency)
             coin = service.generate()
             print("Currency: {}".format(currency))
             print("Address: {}".format(coin.address))
