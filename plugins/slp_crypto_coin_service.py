@@ -1,3 +1,5 @@
+import re
+
 from abc import ABC, abstractmethod
 from enum import auto, Enum, unique, IntEnum
 
@@ -313,7 +315,7 @@ class BitcoinCashSlpCoinService(CoinService):
         # Generate BIP44 master keys
         bip_obj_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN_CASH_SLP)
 
-        address = bip_obj_mst.PublicKey().ToAddress().replace('simpleledger:', '')
+        address = bip_obj_mst.PublicKey().ToAddress()
         wif = bip_obj_mst.PrivateKey().ToWif()
         seed = mnemonic
 
@@ -322,8 +324,11 @@ class BitcoinCashSlpCoinService(CoinService):
     def get_coin(self, private_key):
         decoded_wif = WifDecoder.Decode(wif_str=private_key, net_addr_ver=BitcoinCashSlpConf.WIF_NET_VER.Main())
         key_pair = Bip44.FromAddressPrivKey(decoded_wif, Bip44Coins.BITCOIN_CASH_SLP)
-        address = key_pair.PublicKey().ToAddress().replace('simpleledger:', '')
+        address = key_pair.PublicKey().ToAddress()
         return CryptoCoin(address, private_key)
+
+    def generate_asset_id(self, coin):
+        return re.search('^simpleledger:\\w(\\w{6}).+$', coin.address).group(1)
 
 
 __all__ = ['BitcoinCashSlpCoinService']
