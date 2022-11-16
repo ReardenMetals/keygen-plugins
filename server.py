@@ -6,6 +6,12 @@ from aws_lambda import lambda_handler
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def health_check():
+    return app.response_class(
+        status=200
+    )
+
 @app.route('/Keygen38', methods=['POST'])
 def generate_keys():
     request_body = request.get_json()
