@@ -38,7 +38,7 @@ class BtcCoinService(CoinService):
 
     @staticmethod
     def get_default_coin(private_key):
-        decoded_wif = WifDecoder.Decode(wif_str=private_key, net_addr_ver=BitcoinConf.WIF_NET_VER.Main())
+        decoded_wif = WifDecoder.Decode(wif_str=private_key, net_addr_ver=BitcoinConf.WIF_NET_VER.Test())
         key_pair = Bip44.FromAddressPrivKey(decoded_wif, Bip44Coins.BITCOIN_TESTNET)
         address = key_pair.PublicKey().ToAddress()
         return CryptoCoin(address, private_key)

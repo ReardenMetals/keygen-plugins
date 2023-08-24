@@ -8,9 +8,8 @@ def lambda_handler(event, context):
     blockchain = request_body["blockchain"]
     private_key = request_body["privateKey"]
 
-    coin = blockchain.upper()
     factory = CoinFactory()
-    crypto_keygen_service = factory.get_coin_service(coin)
+    crypto_keygen_service = factory.get_coin_service(blockchain)
 
     address = crypto_keygen_service.get_address(private_key)
 
