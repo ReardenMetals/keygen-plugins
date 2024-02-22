@@ -112,7 +112,10 @@ class TexitCoinConf:
                                     KeyNetVersions(b"0436f6e1", b"0436ef7d"))
 
     # Versions for P2PKH address
-    P2PKH_NET_VER = NetVersions(b"\x30", b"\x6f")
+    # P2PKH_NET_VER = NetVersions(b"\x00", b"\x6f") # Bitcoin
+    # P2PKH_NET_VER = NetVersions(b"\x1e", b"\x6f") # Denarius
+    # P2PKH_NET_VER = NetVersions(b"\x30", b"\x6f") # Litecoin
+    P2PKH_NET_VER = NetVersions(b"\x42", b"\x6f")
     # Deprecated versions for P2SH address (same of Bitcoin)
     P2SH_DEPR_NET_VER = BitcoinConf.P2SH_NET_VER
     # Versions for P2SH address
@@ -769,6 +772,10 @@ class Bip44(Bip44Base):
 
 
 class TexitCoinCoinService(CoinService):
+
+    @staticmethod
+    def get_currency_name():
+        return "TXC"
 
     def generate(self, ):
         # Generate random mnemonic

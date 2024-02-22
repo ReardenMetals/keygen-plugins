@@ -1,24 +1,27 @@
-from keygen.currencies.ltc_crypto_coin_service import LtcCoinService
-from plugins.txc_crypto_coin_service import TexitCoinCoinService
+from plugins.txc_crypto_coin_service import TexitCoinCoinService, TexitCoinConf
 
 
-# def test_get_address_d0():
-#     address = TexitCoinCoinService().get_address('QSDoM1x6bu7BJH965SEu2GrGZdqXbjfBrjDYxfmfvkGYX7aCAPvX')
-#     assert 'DPNsvdVer4LPjPApt8hw4sFfwRfb7ihAHj' == address
+def test_get_address_txc0():
+    address = TexitCoinCoinService().get_address('VgEB4hJvq4HZPrRbTtGHjW25UijkeJEkdryiEnfCbf9LfLEjzdyK')
+    assert 'TjMPrSpiEuwxuKCoELHUCp7hvfBprtk8uf' == address
+
+def test_get_address_txc0():
+    address = TexitCoinCoinService().get_address('VejDLJxncb2GBr4jVaQESFcQiUDGLTiYAm6pHhRY5mmwNZ3wq2bQ')
+    assert 'TdKREogjUYxADbFioWAD2CA611GMyyzBWM' == address
 
 
-# def test_get_address_d1():
-#     address = TexitCoinCoinService().get_address('QWHQY5iNj5HbS9M25yb2UVm8Lh8aqfJUuqbJ4NhkHQqLcczqL6Qd')
-#     assert 'DGkPXfipAat7QswFuZtDJ5CeNiPRQnpzDG' == address
 
-def test_gen_coin_ltc0():
-    coin = LtcCoinService().generate()
-    print(coin)
+def test_get_address_txc1():
+    address = TexitCoinCoinService().get_address('Vh7hXRrTwTc6Ps5ntf4aRD7iH31oxxyygBVo2zVxzX3MJrNdgYJv')
+    print(address)
+    assert 'Thv4aQnFrxZELdV2sbzr6GcqnFgmErpB8Y' == address
 
 def test_gen_coin_txc0():
 
     coin = TexitCoinCoinService().generate()
     print(coin)
+
+
 
 
     # assert 'QSDoM1x6bu7BJH965SEu2GrGZdqXbjfBrjDYxfmfvkGYX7aCAPvX' == coin.wif
