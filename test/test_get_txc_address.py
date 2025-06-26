@@ -2,19 +2,19 @@ from plugins.txc_crypto_coin_service import TexitCoinCoinService, TexitCoinConf
 
 
 def test_get_address_txc0():
-    address = TexitCoinCoinService().get_address('VgEB4hJvq4HZPrRbTtGHjW25UijkeJEkdryiEnfCbf9LfLEjzdyK')
-    assert 'TjMPrSpiEuwxuKCoELHUCp7hvfBprtk8uf' == address
-
-def test_get_address_txc0():
-    address = TexitCoinCoinService().get_address('VejDLJxncb2GBr4jVaQESFcQiUDGLTiYAm6pHhRY5mmwNZ3wq2bQ')
-    assert 'TdKREogjUYxADbFioWAD2CA611GMyyzBWM' == address
-
-
+    address = TexitCoinCoinService().get_address('VgAD16hCTgrvsWZLJygPzrhKvYcd4x1Ug8pHUvGqVUn2ZU8P6bBA')
+    assert 'txc1qq6dwyy99xptw3hy07jl38dcmlkq93urvd6yqp5' == address
 
 def test_get_address_txc1():
-    address = TexitCoinCoinService().get_address('Vh7hXRrTwTc6Ps5ntf4aRD7iH31oxxyygBVo2zVxzX3MJrNdgYJv')
+    address = TexitCoinCoinService().get_address('Vad1DZkaZ6mUTB1LoLtQzL3V24yj442nTmP6xHAW98HSKPPnbTno')
+    assert 'txc1q6nkm2zv44udzpsh80x7mv6rk7tmyfj39fuvr8d' == address
+
+
+
+def test_get_address_txc2():
+    address = TexitCoinCoinService().get_address('VeELq173c2vR2ZmSeTsjtr8DJuCZ4dmk1GWxX3U5MxvyCDvZrFey')
     print(address)
-    assert 'Thv4aQnFrxZELdV2sbzr6GcqnFgmErpB8Y' == address
+    assert 'txc1q8mg97jfx3vzxr8rnm5xzf7lxmp475x4eaw0m4u' == address
 
 def test_gen_coin_txc0():
 
