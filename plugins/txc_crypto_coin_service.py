@@ -9,6 +9,7 @@ from bip_utils.bip.bip_keys import BipPublicKey, BipPrivateKey
 from keygen.crypto_coin import CryptoCoin
 from keygen.crypto_coin_service import CoinService
 from bip_utils.addr               import P2WPKH
+import re
 
 @unique
 class Bip44Coins(Enum):
@@ -976,3 +977,6 @@ class TexitCoinCoinService(CoinService):
         key_pair = Bip84.FromAddressPrivKey(decoded_wif, Bip44Coins.TEXITCOIN)
         address = key_pair.PublicKey().ToAddress()
         return CryptoCoin(address, private_key)
+
+    def generate_asset_id(self, coin):
+        return re.search('^txc1(\\w{6}).+$', coin.address).group(1)
