@@ -22,7 +22,7 @@ class Bip44Coins(Enum):
     BITCOIN_CASH         = auto(),
     BITCOIN_SV           = auto(),
     LITECOIN             = auto(),
-    TEXITCOIN             = auto(),
+    ISKANDER             = auto(),
     DOGECOIN             = auto(),
     DASH                 = auto(),
     ZCASH                = auto(),
@@ -87,11 +87,11 @@ class BitcoinConf:
     # WIF net version
     WIF_NET_VER       = NetVersions(b"\x80", b"\xef")
 
-class TexitCoinConf:
-    """ Class container for TexitCoin configuration. """
+class IskanderCoinConf:
+    """ Class container for Iskander configuration. """
 
     # Names
-    NAMES = CoinNames("TexitCoin", "TXC")
+    NAMES = CoinNames("Iskander", "ISK")
 
     # False for using Bitcoin net versions for extended keys (xprv/xpub and similar), true for using the alternate ones (Ltpv/Ltub and similar)
     EX_KEY_ALT = False
@@ -99,36 +99,31 @@ class TexitCoinConf:
     P2SH_DEPR_ADDR = False
 
     # BIP44 net versions
-    # Litecoin can have 2 different main version: same of Bitcoin or (Ltpv / Ltub), whereas test net version is always (ttub / ttpv)
     BIP44_KEY_NET_VER = NetVersions(
         {"btc": BitcoinConf.BIP44_KEY_NET_VER.Main(), "alt": KeyNetVersions(b"019da462", b"019d9cfe")},
-        KeyNetVersions(b"0436f6e1", b"0436ef7d"))
+        KeyNetVersions(b"0488b21e", b"0488ade4"))
     # BIP49 net versions
-    # Litecoin can have 2 different main version: same of Bitcoin or (Mtpv / Mtub), whereas test net version is always (ttub / ttpv)
     BIP49_KEY_NET_VER = NetVersions(
         {"btc": BitcoinConf.BIP49_KEY_NET_VER.Main(), "alt": KeyNetVersions(b"01b26ef6", b"01b26792")},
-        KeyNetVersions(b"0436f6e1", b"0436ef7d"))
-    # BIP84 net versions (zpub / zprv) - (ttub / ttpv)
+        KeyNetVersions(b"0488b21e", b"0488ade4"))
+    # BIP84 net versions (zpub / zprv) - (vpub / vprv)
     BIP84_KEY_NET_VER = NetVersions(BitcoinConf.BIP84_KEY_NET_VER.Main(),
-                                    KeyNetVersions(b"0436f6e1", b"0436ef7d"))
+                                    KeyNetVersions(b"0488b21e", b"0488ade4"))
 
     # Versions for P2PKH address
-    # P2PKH_NET_VER = NetVersions(b"\x00", b"\x6f") # Bitcoin
-    # P2PKH_NET_VER = NetVersions(b"\x1e", b"\x6f") # Denarius
-    # P2PKH_NET_VER = NetVersions(b"\x30", b"\x6f") # Litecoin
-    P2PKH_NET_VER = NetVersions(b"\x42", b"\x6f")
+    P2PKH_NET_VER = NetVersions(b"\x2d", b"\x6f")
     # Deprecated versions for P2SH address (same of Bitcoin)
     P2SH_DEPR_NET_VER = BitcoinConf.P2SH_NET_VER
     # Versions for P2SH address
-    P2SH_NET_VER = NetVersions(b"\x32", b"\x3a")
+    P2SH_NET_VER = NetVersions(b"\x2c", b"\x3a")
     # Versions for P2WPKH address
-    P2WPKH_NET_VER = NetVersions("txc", "ttxc")
+    P2WPKH_NET_VER = NetVersions("isk", "tisk")
 
     # WIF net version
-    WIF_NET_VER = NetVersions(b"\xc1", b"\xef")
+    WIF_NET_VER = NetVersions(b"\xad", b"\xef")
 
-# Configuration for TexitCoin main net
-Bip44TexitCoinMainNet = Bip44Coin(coin_conf  = TexitCoinConf,
+# Configuration for Iskander main net
+Bip44IskanderMainNet = Bip44Coin(coin_conf  = IskanderCoinConf,
                                  is_testnet = False,
                                  addr_fct   = P2PKH)
 
@@ -161,12 +156,12 @@ class Bip44Const:
             Bip44Coins.BINANCE_CHAIN      ,
             Bip44Coins.BINANCE_SMART_CHAIN,
             Bip44Coins.NINE_CHRONICLES_GOLD,
-            Bip44Coins.TEXITCOIN,
+            Bip44Coins.ISKANDER,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
         {
-            Bip44Coins.TEXITCOIN              : Bip44TexitCoinMainNet,
+            Bip44Coins.ISKANDER              : Bip44IskanderMainNet,
 
         }
 
@@ -200,7 +195,7 @@ class Bip44BaseConst:
         # Main nets
         Bip44Coins.BITCOIN              : 0,
         Bip44Coins.LITECOIN             : 2,
-        Bip44Coins.TEXITCOIN             : 116, #TODO FIX THIS
+        Bip44Coins.ISKANDER             : 969696,
         Bip44Coins.DOGECOIN             : 3,
         Bip44Coins.DASH                 : 5,
         Bip44Coins.ETHEREUM             : 60,
@@ -505,131 +500,42 @@ class Bip44Base(ABC):
 
     @abstractmethod
     def Purpose(self):
-        """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _PurposeGeneric method with the current object as parameter.
-
-        Returns:
-            Bip44Base child object: Bip44Base child object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         pass
 
     @abstractmethod
     def Coin(self):
-        """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _CoinGeneric method with the current object as parameter.
-
-        Returns:
-            Bip44Base child object: Bip44Base child object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         pass
 
     @abstractmethod
     def Account(self, acc_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _AccountGeneric method with the current object as parameter.
-
-        Args:
-            acc_idx (int): Account index
-
-        Returns:
-            Bip44Base child object: Bip44Base child object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         pass
 
     @abstractmethod
     def Change(self, change_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _ChangeGeneric method with the current object as parameter.
-
-        Args:
-            change_idx (Bip44Changes): Change index, must a Bip44Changes enum
-
-        Returns:
-            Bip44Base child object: Bip44Base child object
-
-        Raises:
-            TypeError: If chain index is not a Bip44Changes enum
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         pass
 
     @abstractmethod
     def AddressIndex(self, addr_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _AddressIndexGeneric method with the current object as parameter.
-
-        Args:
-            addr_idx (int): Address index
-
-        Returns:
-            Bip44Base child object: Bip44Base child object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         pass
 
     @staticmethod
     @abstractmethod
     def SpecName():
-        """ Get specification name.
-
-        Returns:
-            str: Specification name
-        """
         pass
 
     @staticmethod
     @abstractmethod
     def IsCoinAllowed(coin_type):
-        """ Get if the specified coin is allowed.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns :
-            bool: True if allowed, false otherwise
-
-        Raises:
-            TypeError: If coin_type is not of Bip44Coins enum
-        """
         pass
 
     @staticmethod
     @abstractmethod
     def _GetPurpose():
-        """ Get purpose.
-
-        Returns:
-            int: Purpose index
-        """
         pass
 
     @staticmethod
     @abstractmethod
     def _GetCoinClass(coin_type):
-        """ Get coin class.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns:
-            BipCoinBase child object: BipCoinBase child object
-        """
         pass
 
 
@@ -638,144 +544,43 @@ class Bip44(Bip44Base):
     BIP-0044 specifications: https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
     """
 
-    #
-    # Override methods
-    #
-
     def Purpose(self):
-        """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _PurposeGeneric method with the current object as parameter.
-
-        Returns:
-            Bip44 object: Bip44 object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._PurposeGeneric(self)
 
     def Coin(self):
-        """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _CoinGeneric method with the current object as parameter.
-
-        Returns:
-            Bip44 object: Bip44 object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._CoinGeneric(self)
 
     def Account(self, acc_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _AccountGeneric method with the current object as parameter.
-
-        Args:
-            acc_idx (int): Account index
-
-        Returns:
-            Bip44 object: Bip44 object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._AccountGeneric(self, acc_idx)
 
     def Change(self, change_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _ChangeGeneric method with the current object as parameter.
-
-        Args:
-            change_idx (Bip44Changes): Change index, must a Bip44Changes enum
-
-        Returns:
-            Bip44 object: Bip44 object
-
-        Raises:
-            TypeError: If chain index is not a Bip44Changes enum
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._ChangeGeneric(self, change_idx)
 
     def AddressIndex(self, addr_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _AddressIndexGeneric method with the current object as parameter.
-
-        Args:
-            addr_idx (int): Address index
-
-        Returns:
-            Bip44 object: Bip44 object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._AddressIndexGeneric(self, addr_idx)
 
     @staticmethod
     def SpecName():
-        """ Get specification name.
-
-        Returns:
-            str: Specification name
-        """
         return Bip44Const.SPEC_NAME
 
     @staticmethod
     def IsCoinAllowed(coin_type):
-        """ Get if the specified coin is allowed.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns :
-            bool: True if allowed, false otherwise
-
-        Raises:
-            TypeError: If coin_type is not of Bip44Coins enum
-        """
         if not isinstance(coin_type, Bip44Coins):
             raise TypeError("Coin is not an enumerative of Bip44Coins")
-
         return coin_type in Bip44Const.ALLOWED_COINS
 
     @staticmethod
     def _GetPurpose():
-        """ Get purpose.
-
-        Returns:
-            int: Purpose index
-        """
         return Bip44Const.PURPOSE
 
     @staticmethod
     def _GetCoinClass(coin_type):
-        """ Get coin class.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns:
-            BipCoinBase child object: BipCoinBase child object
-        """
         return Bip44Const.COIN_TO_CLASS[coin_type]
 
 class Bip84Coin(BipCoinBase):
     """ Generic class for BIP-084 coins. """
 
     def __init__(self, coin_conf, is_testnet, addr_fct):
-        """ Construct class.
-
-        Args:
-            coin_conf (class): Coin configuration class
-            is_testnet (bool): True if test net, false otherwise
-            addr_fct (class) : Address class
-        """
         super().__init__(coin_conf, coin_conf.BIP84_KEY_NET_VER, is_testnet, addr_fct)
 
 
@@ -788,13 +593,13 @@ Bip84BitcoinTestNet = Bip84Coin(coin_conf  = BitcoinConf,
                                 is_testnet = True,
                                 addr_fct   = P2WPKH)
 
-# Configuration for Litecoin main net
-Bip84TexitcoinMainNet = Bip84Coin(coin_conf  = TexitCoinConf,
+# Configuration for Iskander main net
+Bip84IskanderMainNet = Bip84Coin(coin_conf  = IskanderCoinConf,
                                  is_testnet = False,
                                  addr_fct   = P2WPKH)
 
 class Bip84Const:
-    """ Class container for BIP44 constants. """
+    """ Class container for BIP84 constants. """
 
     # Specification name
     SPEC_NAME = "BIP-0084"
@@ -804,14 +609,14 @@ class Bip84Const:
     ALLOWED_COINS = \
         [
             Bip44Coins.BITCOIN , Bip44Coins.BITCOIN_TESTNET ,
-            Bip44Coins.TEXITCOIN,
+            Bip44Coins.ISKANDER,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
         {
             Bip44Coins.BITCOIN          : Bip84BitcoinMainNet,
             Bip44Coins.BITCOIN_TESTNET  : Bip84BitcoinTestNet,
-            Bip44Coins.TEXITCOIN         : Bip84TexitcoinMainNet,
+            Bip44Coins.ISKANDER         : Bip84IskanderMainNet,
         }
 
 class Bip84(Bip44Base):
@@ -819,138 +624,44 @@ class Bip84(Bip44Base):
     BIP-0084 specifications: https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
     """
 
-    #
-    # Override methods
-    #
-
     def Purpose(self):
-        """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _PurposeGeneric method with the current object as parameter.
-
-        Returns:
-            Bip84 object: Bip84 object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._PurposeGeneric(self)
 
     def Coin(self):
-        """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _CoinGeneric method with the current object as parameter.
-
-        Returns:
-            Bip84 object: Bip84 object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._CoinGeneric(self)
 
     def Account(self, acc_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _AccountGeneric method with the current object as parameter.
-
-        Args:
-            acc_idx (int): Account index
-
-        Returns:
-            Bip84 object: Bip84 object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._AccountGeneric(self, acc_idx)
 
     def Change(self, change_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _ChangeGeneric method with the current object as parameter.
-
-        Args:
-            change_idx (Bip44Changes): Change index, must a Bip44Changes enum
-
-        Returns:
-            Bip84 object: Bip84 object
-
-        Raises:
-            TypeError: If chain index is not a Bip44Changes enum
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._ChangeGeneric(self, change_idx)
 
     def AddressIndex(self, addr_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _AddressIndexGeneric method with the current object as parameter.
-
-        Args:
-            addr_idx (int): Address index
-
-        Returns:
-            Bip84 object: Bip84 object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
         return self._AddressIndexGeneric(self, addr_idx)
 
     @staticmethod
     def SpecName():
-        """ Get specification name.
-
-        Returns:
-            str: Specification name
-        """
         return Bip84Const.SPEC_NAME
 
     @staticmethod
     def IsCoinAllowed(coin_type):
-        """ Get if the specified coin is allowed.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns :
-            bool: True if allowed, false otherwise
-
-        Raises:
-            TypeError: If coin_type is not of Bip44Coins enum
-        """
         if not isinstance(coin_type, Bip44Coins):
             raise TypeError("Coin is not an enumerative of Bip44Coins")
-
         return coin_type in Bip84Const.ALLOWED_COINS
 
     @staticmethod
     def _GetPurpose():
-        """ Get purpose.
-
-        Returns:
-            int: Purpose index
-        """
         return Bip84Const.PURPOSE
 
     @staticmethod
     def _GetCoinClass(coin_type):
-        """ Get coin class.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns:
-            BipCoinBase child object: BipCoinBase child object
-        """
         return Bip84Const.COIN_TO_CLASS[coin_type]
 
-class TexitCoinCoinService(CoinService):
+class IskanderCoinService(CoinService):
 
     @staticmethod
     def get_currency_name():
-        return "TXC"
+        return "ISK"
 
     def generate(self, ):
         # Generate random mnemonic
@@ -963,8 +674,8 @@ class TexitCoinCoinService(CoinService):
         # Generate seed from mnemonic
         seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
-        # Generate BIP44 master keys
-        bip_obj_mst = Bip84.FromSeed(seed_bytes, Bip44Coins.TEXITCOIN)
+        # Generate BIP84 master keys
+        bip_obj_mst = Bip84.FromSeed(seed_bytes, Bip44Coins.ISKANDER)
 
         address = bip_obj_mst.PublicKey().ToAddress()
         wif = bip_obj_mst.PrivateKey().ToWif()
@@ -973,10 +684,10 @@ class TexitCoinCoinService(CoinService):
         return CryptoCoin(address, wif, seed)
 
     def get_coin(self, private_key):
-        decoded_wif = WifDecoder.Decode(wif_str=private_key, net_addr_ver=TexitCoinConf.WIF_NET_VER.Main())
-        key_pair = Bip84.FromAddressPrivKey(decoded_wif, Bip44Coins.TEXITCOIN)
+        decoded_wif = WifDecoder.Decode(wif_str=private_key, net_addr_ver=IskanderCoinConf.WIF_NET_VER.Main())
+        key_pair = Bip84.FromAddressPrivKey(decoded_wif, Bip44Coins.ISKANDER)
         address = key_pair.PublicKey().ToAddress()
         return CryptoCoin(address, private_key)
 
     def generate_asset_id(self, coin):
-        return re.search('^txc1(\\w{6}).+$', coin.address).group(1)
+        return re.search('^isk1(\\w{6}).+$', coin.address).group(1)
