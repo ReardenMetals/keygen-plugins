@@ -9,6 +9,9 @@ def test_get_address_txc1():
     address = TexitCoinCoinService().get_address('Vad1DZkaZ6mUTB1LoLtQzL3V24yj442nTmP6xHAW98HSKPPnbTno')
     assert 'txc1q6nkm2zv44udzpsh80x7mv6rk7tmyfj39fuvr8d' == address
 
+def test_get_address_txc1_1():
+    address = TexitCoinCoinService().get_address('Vc6c4MVptDdyb5vH9H6rsB4Gg3E4Y5RVY32L8VuY2UXXs8CC5KJe')
+    assert 'txc1q6nkm2zv44udzpsh80x7mv6rk7tmyfj39fuvr8d' == address
 
 
 def test_get_address_txc2():
