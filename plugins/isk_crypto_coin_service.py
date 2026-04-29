@@ -675,7 +675,7 @@ class IskanderCoinService(CoinService):
         seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
         # Generate BIP84 master keys
-        bip_obj_mst = Bip84.FromSeed(seed_bytes, Bip44Coins.ISKANDER)
+        bip_obj_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.ISKANDER)
 
         address = bip_obj_mst.PublicKey().ToAddress()
         wif = bip_obj_mst.PrivateKey().ToWif()
@@ -685,9 +685,9 @@ class IskanderCoinService(CoinService):
 
     def get_coin(self, private_key):
         decoded_wif = WifDecoder.Decode(wif_str=private_key, net_addr_ver=IskanderCoinConf.WIF_NET_VER.Main())
-        key_pair = Bip84.FromAddressPrivKey(decoded_wif, Bip44Coins.ISKANDER)
+        key_pair = Bip44.FromAddressPrivKey(decoded_wif, Bip44Coins.ISKANDER)
         address = key_pair.PublicKey().ToAddress()
         return CryptoCoin(address, private_key)
 
-    def generate_asset_id(self, coin):
-        return re.search('^isk1(\\w{6}).+$', coin.address).group(1)
+    # def generate_asset_id(self, coin):
+    #     return re.search('^isk1(\\w{6}).+$', coin.address).group(1)
